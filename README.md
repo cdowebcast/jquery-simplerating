@@ -8,7 +8,7 @@ Setup
 -----
 Download the JS file then add it to your page
 ```html
-<script src='/assets/js/simplerating.js'></script>
+<script src="/assets/js/simplerating.js"></script>
 ```
 Add to your CSS :
 ````css
