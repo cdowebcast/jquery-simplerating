@@ -32,7 +32,7 @@ Create an empty div in your page, where you want to display the rating system
 ````html
  <div id="rating-difficulty"></div>
  ```
-An input hidden is automatically created to store the rank chosen by the user, don't forget the "autocomplete" attribute to avoid problem with Firefox,
+An input hidden is automatically created to store the rank chosen by the user,
 you provide the name of this input in the settings.
  
 
