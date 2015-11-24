@@ -1,13 +1,16 @@
-
-
-
+/******************************
+jquery-simple rating
+Author : Charly Martins
+Version 1.1
+https://github.com/Yosimitso/jquery-simplerating
+*******************************/
 (function(jQuery) {
     jQuery.fn.simplerating = function(options) {
     var settings = { 
                         
                         rating_number: 3, // RANK MAX GIVEN BY THE USER
                         image: '', // IMAGE USED FOR THE RANK SYSTEM
-                        hidden_input: '', // THE ID OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
+                        hidden_input: 'rank_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
                         image_width: '', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
                         initial_rate : 1, // OPTIONNAL, INITIAL RANK
                         callback_on_click: '' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RANK
@@ -30,11 +33,23 @@
          console.error('Simplerating : You must provide an image url');
      }
      
-      if (settings.rating == 0 || settings.image == null)
+      if (settings.rating_number == 0 || settings.rating_number == null)
      {
 
          console.error('Simplerating : You must provide a rating number');
      }
+	 
+	 if (settings.hidden_input)
+	 {
+		 if (jQuery('#'+settings.hidden_input).length == 0)
+		 {
+			 jQuery(this).append('<input type="hidden" autocomplete="off" value="0" name="'+settings.hidden_input+'" id="'+settings.hidden_input+'">');
+		 }
+	 }
+	 else
+	 {
+		 console_error('Simplerating : An hidden input is required to store the user\'s choice');
+	 }
      
 
       for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RANK'S IMAGE
@@ -45,7 +60,7 @@
               append += ' low-opacity';
           }
           append += '"/>';
-           $(this).append(append);
+           jQuery(this).append(append);
       }
        
        
@@ -66,11 +81,11 @@
             {
             var value = $('#'+settings.hidden_input).val();
             
-            if (value === null)
+            if (value === null || value == undefined)
             {
-                value = 0;
+                value = settings.initial_rate;
             }
-           
+         
             var rating_number = settings.rating_number;
           for (i = 1; i !== (rating_number+1);i++)
            {
