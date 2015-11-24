@@ -8,7 +8,7 @@ https://github.com/Yosimitso/jquery-simplerating
     jQuery.fn.simplerating = function(options) {
     var settings = { 
                         
-                        rating_number: 3, // RANK MAX GIVEN BY THE USER
+                        rating_number: 5, // RANK MAX GIVEN BY THE USER
                         image: '', // IMAGE USED FOR THE RANK SYSTEM
                         hidden_input: 'rank_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
                         image_width: '', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
@@ -54,7 +54,7 @@ https://github.com/Yosimitso/jquery-simplerating
 
       for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RANK'S IMAGE
       {
-          var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'"style="margin-left:5px;" id="rate['+i+']" data="'+i+'" class="img-rate';
+          var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'"style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate_'+settings.hidden_input;
           if (i >= (settings.initial_rate+1)) // FOR THE INTIAL VALUE
           {
               append += ' low-opacity';
@@ -65,18 +65,18 @@ https://github.com/Yosimitso/jquery-simplerating
        
        
       
-       $('.img-rate').hover( function(event) { // WHEN USER HOVER A RANK
+       $('.img-rate_'+settings.hidden_input).hover( function(event) { // WHEN USER HOVER A RANK
            if (!unactive)
            {
           for (i = 1; i !== (parseInt($(this).attr('data')) +1);i++)
            {
-           $('#rate\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RANK
+           $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RANK
             }
        }
    });
        
        
-        $('.img-rate').mouseleave( function(event) { // WHEN USER'S MOUSE LEAVE THE RANK SYSTEM
+        $('.img-rate_'+settings.hidden_input).mouseleave( function(event) { // WHEN USER'S MOUSE LEAVE THE RANK SYSTEM
             if (!unactive)
             {
             var value = $('#'+settings.hidden_input).val();
@@ -89,9 +89,9 @@ https://github.com/Yosimitso/jquery-simplerating
             var rating_number = settings.rating_number;
           for (i = 1; i !== (rating_number+1);i++)
            {
-                if ($('#rate\\['+i+'\\]').attr('data') >  value) 
+                if ($('#rate_'+settings.hidden_input+'\\['+i+'\\]').attr('data') >  value) 
                 {
-                     $('#rate\\['+i+'\\]').addClass('low-opacity'); 
+                     $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
                  }
        }
         
@@ -99,12 +99,12 @@ https://github.com/Yosimitso/jquery-simplerating
             }  
     });
     
-     $('.img-rate').click( function() {
+     $('.img-rate_'+settings.hidden_input).click( function() {
          if (!unactive)
          {
          for (i = 1; i !== (parseInt($(this).attr('data')) +1);i++)
            {
-           $('#rate\\['+i+'\\]').removeClass('low-opacity');
+           $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity');
        }
      $('#'+settings.hidden_input).val($(this).attr('data'));
      
