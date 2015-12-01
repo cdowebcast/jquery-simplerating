@@ -9,11 +9,13 @@ https://github.com/Yosimitso/jquery-simplerating
     var settings = { 
                         
                         rating_number: 5, // RANK MAX GIVEN BY THE USER
+                        rating_text : {},
                         image: '', // IMAGE USED FOR THE RANK SYSTEM
                         hidden_input: 'rank_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
                         image_width: '', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
                         initial_rate : 1, // OPTIONNAL, INITIAL RANK
                         callback_on_click: '' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RANK
+                        
                         
 
 		};
@@ -25,33 +27,51 @@ https://github.com/Yosimitso/jquery-simplerating
                  $('#'+settings.hidden_input).val(settings.initial_rate); // SET THE VALUE OF THE INITIAL RANK TO THE HIDDEN INPUT
                  
                  
-          
+          /* TEST ON SETTINGS */
                  
-       if (settings.image == '' || settings.image == null)
+       if (settings.image == '' || settings.image == null) // IMAGE PROVIDED
      {
-
-         console.error('Simplerating : You must provide an image url');
+         trigger_error(this,'Simplerating : You must provide an image url');
+         return false;
      }
      
-      if (settings.rating_number == 0 || settings.rating_number == null)
+      if (settings.rating_number <= 0 || settings.rating_number == null)
      {
 
-         console.error('Simplerating : You must provide a rating number');
+         
+           trigger_error(this,'Simplerating : You must provide a rating number');
+           return false;
      }
 	 
 	 if (settings.hidden_input)
 	 {
-		 if (jQuery('#'+settings.hidden_input).length == 0)
+		 if (jQuery('#'+settings.hidden_input).length == 0) // CREATING THE HIDDEN INPUT
 		 {
 			 jQuery(this).append('<input type="hidden" autocomplete="off" value="0" name="'+settings.hidden_input+'" id="'+settings.hidden_input+'">');
 		 }
 	 }
 	 else
 	 {
-		 console_error('Simplerating : An hidden input is required to store the user\'s choice');
+		 
+                 trigger_error(this,'Simplerating : An hidden input is required to store the user\'s choice');
+                  return false;
+                 
 	 }
-     
-
+         
+        if (settings.rating_text) // IF PROVIDED IT MUST INCLUDE ALL THE RATING NUMBER 
+        {
+            for (test_text = settings.initial_rate; test_text <= settings.rating_number;test_text++ )
+            {
+                if (!settings.rating_text[test_text])
+                {
+                  
+                  trigger_error(this,'SimpleRating : The parameter "rating_text" must contains all the rating number available or must be set to null/omitted');
+                  return false;
+                }      
+            }
+           
+        }
+        /* END TEST ON SETTINGS */
       for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RANK'S IMAGE
       {
           var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'"style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate_'+settings.hidden_input;
@@ -60,9 +80,20 @@ https://github.com/Yosimitso/jquery-simplerating
               append += ' low-opacity';
           }
           append += '"/>';
+         
            jQuery(this).append(append);
       }
-       
+      
+      if (settings.rating_text)
+      {
+       number_text = '<div class="simplerating-text" id="simplerating-text">';
+       if (settings.rating_text[parseInt(settings.initial_rate)])
+       {
+           number_text += settings.rating_text[parseInt(settings.initial_rate)];
+       }
+       number_text += '</div>';
+       jQuery(this).append(number_text);
+        }
        
       
        $('.img-rate_'+settings.hidden_input).hover( function(event) { // WHEN USER HOVER A RANK
@@ -71,6 +102,10 @@ https://github.com/Yosimitso/jquery-simplerating
           for (i = 1; i !== (parseInt($(this).attr('data')) +1);i++)
            {
            $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RANK
+            }
+            if (settings.rating_text[parseInt($(this).attr('data'))])
+            {
+              $('#simplerating-text').html(settings.rating_text[parseInt($(this).attr('data'))]);  
             }
        }
    });
@@ -95,8 +130,17 @@ https://github.com/Yosimitso/jquery-simplerating
                  }
        }
         
-        
+                if (settings.rating_text[parseInt($(this).attr('data'))])
+                {
+                    $('#simplerating-text').html(settings.rating_text[parseInt($(this).attr('data'))]);  
+                }
+                else
+                {
+                    $('#simplerating-text').html('');  
+                }
             }  
+            
+            
     });
     
      $('.img-rate_'+settings.hidden_input).click( function() {
@@ -118,7 +162,11 @@ https://github.com/Yosimitso/jquery-simplerating
         
         
         
-    
+    function trigger_error(myself,message)
+    {
+      console.error(message);
+      jQuery(myself).html('SimpleRating : error');  
+    }
     
     
     
