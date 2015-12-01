@@ -74,7 +74,7 @@ https://github.com/Yosimitso/jquery-simplerating
         /* END TEST ON SETTINGS */
       for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RANK'S IMAGE
       {
-          var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'"style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate_'+settings.hidden_input;
+          var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'" style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate img-rate_'+settings.hidden_input;
           if (i >= (settings.initial_rate+1)) // FOR THE INTIAL VALUE
           {
               append += ' low-opacity';
@@ -97,11 +97,17 @@ https://github.com/Yosimitso/jquery-simplerating
        
       
        $('.img-rate_'+settings.hidden_input).hover( function(event) { // WHEN USER HOVER A RANK
+           choice = parseInt($(this).attr('data'));
            if (!unactive)
            {
-          for (i = 1; i !== (parseInt($(this).attr('data')) +1);i++)
+          for (i = 1; i <= choice;i++)
            {
            $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RANK
+            }
+            //alert('i = '+(parseInt($(this).attr('data'))+1)+'; i < '+settings.rating_number+1+'; i++');
+            for (i = choice+1; i <= settings.rating_number; i++) // FADE THE HIGHER RANK
+            {
+               $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
             }
             if (settings.rating_text[parseInt($(this).attr('data'))])
             {
@@ -114,25 +120,34 @@ https://github.com/Yosimitso/jquery-simplerating
         $('.img-rate_'+settings.hidden_input).mouseleave( function(event) { // WHEN USER'S MOUSE LEAVE THE RANK SYSTEM
             if (!unactive)
             {
-            var value = $('#'+settings.hidden_input).val();
+            var value = parseInt($('#'+settings.hidden_input).val());
             
-            if (value === null || value == undefined)
+            if (value === null || value === undefined)
             {
                 value = settings.initial_rate;
             }
          
             var rating_number = settings.rating_number;
-          for (i = 1; i !== (rating_number+1);i++)
+            
+            
+            
+          for (i = value+1; i <= rating_number;i++)
            {
-                if ($('#rate_'+settings.hidden_input+'\\['+i+'\\]').attr('data') >  value) 
-                {
-                     $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
-                 }
-       }
+               
+                $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
+                 
+            }
+                
+          
+            for (i = 1; i <= value; i++)
+            {
+                $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); 
+            }
         
-                if (settings.rating_text[parseInt($(this).attr('data'))])
+                if (settings.rating_text[$('#'+settings.hidden_input).val()]) // PRINT THE TEXT OF THE RANL
                 {
-                    $('#simplerating-text').html(settings.rating_text[parseInt($(this).attr('data'))]);  
+                    
+                    $('#simplerating-text').html(settings.rating_text[parseInt($('#'+settings.hidden_input).val())]);  
                 }
                 else
                 {
