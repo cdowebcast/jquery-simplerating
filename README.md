@@ -47,7 +47,7 @@ Into a script tag and when the document is loaded and ready
              hidden_input: 'rank_simplerating', // THE ID OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
              image_width: '32px', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
              initial_rank: 1, // OPTIONNAL, INITIAL RANK
-             callback_on_click: 'sendRate' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RANK
+             callback_on_click: 'sendRate', // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RANK
 			 rating_text: {1 : 'Worst', 2 : 'Poor', 3 : 'Not bad', 4 : 'Great', 5 : 'Awesome'}
         });
 ```
