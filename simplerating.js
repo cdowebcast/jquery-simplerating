@@ -8,13 +8,13 @@ https://github.com/Yosimitso/jquery-simplerating
     jQuery.fn.simplerating = function(options) {
     var settings = { 
                         
-                        rating_number: 5, // RANK MAX GIVEN BY THE USER
+                        rating_number: 5, // RATING MAX GIVEN BY THE USER
                         rating_text : {},
-                        image: '', // IMAGE USED FOR THE RANK SYSTEM
-                        hidden_input: 'rank_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
+                        image: '', // IMAGE USED FOR THE RATING SYSTEM
+                        hidden_input: 'rating_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
                         image_width: '', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
-                        initial_rate : 1, // OPTIONNAL, INITIAL RANK
-                        callback_on_click: '' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RANK
+                        initial_rate : 1, // OPTIONNAL, INITIAL RATING
+                        callback_on_click: '' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RATING
                         
                         
 
@@ -24,7 +24,7 @@ https://github.com/Yosimitso/jquery-simplerating
     
              
 		if(options) { jQuery.extend(settings, options); };  
-                 $('#'+settings.hidden_input).val(settings.initial_rate); // SET THE VALUE OF THE INITIAL RANK TO THE HIDDEN INPUT
+                 $('#'+settings.hidden_input).val(settings.initial_rate); // SET THE VALUE OF THE INITIAL RATING TO THE HIDDEN INPUT
                  
                  
           /* TEST ON SETTINGS */
@@ -72,7 +72,7 @@ https://github.com/Yosimitso/jquery-simplerating
            
         }
         /* END TEST ON SETTINGS */
-      for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RANK'S IMAGE
+      for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RATING'S IMAGE
       {
           var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'" style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate img-rate_'+settings.hidden_input;
           if (i >= (settings.initial_rate+1)) // FOR THE INTIAL VALUE
@@ -96,16 +96,16 @@ https://github.com/Yosimitso/jquery-simplerating
         }
        
       
-       $('.img-rate_'+settings.hidden_input).hover( function(event) { // WHEN USER HOVER A RANK
+       $('.img-rate_'+settings.hidden_input).hover( function(event) { // WHEN USER HOVER A RATING
            choice = parseInt($(this).attr('data'));
            if (!unactive)
            {
           for (i = 1; i <= choice;i++)
            {
-           $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RANK
+           $('#rate_'+settings.hidden_input+'\\['+i+'\\]').removeClass('low-opacity'); // HIGHLIGHT THE RATING
             }
             //alert('i = '+(parseInt($(this).attr('data'))+1)+'; i < '+settings.rating_number+1+'; i++');
-            for (i = choice+1; i <= settings.rating_number; i++) // FADE THE HIGHER RANK
+            for (i = choice+1; i <= settings.rating_number; i++) // FADE THE HIGHER RATING
             {
                $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
             }
@@ -117,7 +117,7 @@ https://github.com/Yosimitso/jquery-simplerating
    });
        
        
-        $('.img-rate_'+settings.hidden_input).mouseleave( function(event) { // WHEN USER'S MOUSE LEAVE THE RANK SYSTEM
+        $('.img-rate_'+settings.hidden_input).mouseleave( function(event) { // WHEN USER'S MOUSE LEAVE THE RATING SYSTEM
             if (!unactive)
             {
             var value = parseInt($('#'+settings.hidden_input).val());
@@ -170,7 +170,7 @@ https://github.com/Yosimitso/jquery-simplerating
      if (settings.callback_on_click !== '') // IF A CALLBACK IS NEEDED
      {
         eval(settings.callback_on_click+'()');
-         unactive = true; // THE USER CAN'T CHOOSE AN ANOTHER RANK
+         unactive = true; // THE USER CAN'T CHOOSE AN ANOTHER RATING
      }
         }
     });
