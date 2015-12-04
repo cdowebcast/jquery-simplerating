@@ -44,7 +44,7 @@ Into a script tag and when the document is loaded and ready
 ````javascript
  $('#rating-difficulty').simplerating({
              rating_number: 5, // MAXIMUM RATING AVAILABLE THE USER
-             image: '/images/star.png', // IMAGE USED FOR THE RATING SYSTEM
+             image: 'star.png', // IMAGE USED FOR THE RATING SYSTEM
              hidden_input: 'rating_simplerating', // THE ID OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
              image_width: '32px', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
              initial_rating: 1, // OPTIONNAL, INITIAL RATING
