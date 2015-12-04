@@ -32,14 +32,9 @@ Create an empty div in your page, where you want to display the rating system
 ````html
  <div id="rating-difficulty"></div>
  ```
-<<<<<<< HEAD
 An input hidden is automatically created to store the rank chosen by the user.
 You can create it by yourself, the script won't overwrite it, but don't forget the "autocomplete" attribute to avoid problem with Firefox.
 You provide the name of this input in the settings.
-=======
-An input hidden is automatically created to store the rank chosen by the user,
-you provide the name of this input in the settings.
->>>>>>> 8fa8e06197101a797b6e9e5e3dd981d1861f642c
  
 
 
@@ -50,11 +45,11 @@ Into a script tag and when the document is loaded and ready
  $('#rating-difficulty').simplerating({
              rating_number: 5, // MAXIMUM RATING AVAILABLE THE USER
              image: '/images/star.png', // IMAGE USED FOR THE RATING SYSTEM
-             hidden_input: 'rank_simplerating', // THE ID OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
+             hidden_input: 'rating_simplerating', // THE ID OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
              image_width: '32px', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
              initial_rating: 1, // OPTIONNAL, INITIAL RATING
              callback_on_click: 'sendRating', // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RATING
-			 rating_text: {0 : 'Worst', 1 : 'Poor', 2 : 'Correct', 3 : 'Not bad', 4 : 'Great', 5 : 'Awesome'} // TEXT DISPLAYED ACCORDING TO THE RATING CHOSEN
+			 rating_text: {0 : 'Worst', 1 : 'Poor', 2 : 'Correct', 3 : 'Not bad', 4 : 'Great', 5 : 'Awesome'} // OPTIONNAL, TEXT DISPLAYED ACCORDING TO THE RATING CHOSEN, THE "0" RATING IS OPTIONNAL
         });
 ```
 Don't forget to check the rating chosen (into the hidden input) on your server side's script
