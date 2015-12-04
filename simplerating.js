@@ -1,7 +1,7 @@
 /******************************
 jquery-simple rating
 Author : Charly Martins
-Version 1.1
+Version 1.2
 https://github.com/Yosimitso/jquery-simplerating
 *******************************/
 (function(jQuery) {
