@@ -13,7 +13,7 @@ https://github.com/Yosimitso/jquery-simplerating
                         image: '', // IMAGE USED FOR THE RATING SYSTEM
                         hidden_input: 'rating_simplerating', // THE ID AND NAME OF YOUR HIDDEN INPUT CONTAINING THE USER'S CHOICE
                         image_width: '', // OPTIONNAL, IF YOU NEED TO RESIZE THE IMAGE
-                        initial_rate : 1, // OPTIONNAL, INITIAL RATING
+                        initial_rating : 0, // OPTIONNAL, INITIAL RATING
                         callback_on_click: '' // OPTIONNAL, NAME OF THE FUNCTION WITHOUT () CALLED WHEN THE USER CLICK ON A RATING
                         
                         
@@ -24,7 +24,7 @@ https://github.com/Yosimitso/jquery-simplerating
     
              
 		if(options) { jQuery.extend(settings, options); };  
-                 $('#'+settings.hidden_input).val(settings.initial_rate); // SET THE VALUE OF THE INITIAL RATING TO THE HIDDEN INPUT
+                 $('#'+settings.hidden_input).val(settings.initial_rating); // SET THE VALUE OF THE INITIAL RATING TO THE HIDDEN INPUT
                  
                  
           /* TEST ON SETTINGS */
@@ -47,8 +47,12 @@ https://github.com/Yosimitso/jquery-simplerating
 	 {
 		 if (jQuery('#'+settings.hidden_input).length == 0) // CREATING THE HIDDEN INPUT
 		 {
-			 jQuery(this).append('<input type="hidden" autocomplete="off" value="0" name="'+settings.hidden_input+'" id="'+settings.hidden_input+'">');
+			 jQuery(this).append('<input type="hidden" autocomplete="off" value="'+settings.initial_rating+'" name="'+settings.hidden_input+'" id="'+settings.hidden_input+'">');
 		 }
+                 else
+                 {
+                     $('#'+settings.hidden_input).val(settings.initial_rating); // SET THE INITIAL RATING IF INPUT EXISTS
+                 }
 	 }
 	 else
 	 {
@@ -57,15 +61,16 @@ https://github.com/Yosimitso/jquery-simplerating
                   return false;
                  
 	 }
-         
-        if (settings.rating_text) // IF PROVIDED IT MUST INCLUDE ALL THE RATING NUMBER 
+        
+        if (!($.isEmptyObject(settings.rating_text))) // IF PROVIDED IT MUST INCLUDE ALL THE RATING NUMBER 
         {
-            for (test_text = settings.initial_rate; test_text <= settings.rating_number;test_text++ )
+            
+            for (test_text = settings.rating_number; test_text > 0;test_text-- )
             {
                 if (!settings.rating_text[test_text])
                 {
                   
-                  trigger_error(this,'SimpleRating : The parameter "rating_text" must contains all the rating number available or must be set to null/omitted');
+                  trigger_error(this,'SimpleRating : The parameter "rating_text" must contains all the rating number available or must be set omitted, missing rating : '+test_text);
                   return false;
                 }      
             }
@@ -75,7 +80,7 @@ https://github.com/Yosimitso/jquery-simplerating
       for (i = 1; i !== (settings.rating_number+1);i++) // PRINT THE RATING'S IMAGE
       {
           var append = '<img src="'+settings.image+'"  width="'+settings.image_width+'" style="margin-left:5px;" id="rate_'+settings.hidden_input+'['+i+']" data="'+i+'" class="img-rate img-rate_'+settings.hidden_input;
-          if (i >= (settings.initial_rate+1)) // FOR THE INTIAL VALUE
+          if (i >= (settings.initial_rating+1)) // FOR THE INTIAL VALUE
           {
               append += ' low-opacity';
           }
@@ -83,13 +88,13 @@ https://github.com/Yosimitso/jquery-simplerating
          
            jQuery(this).append(append);
       }
-      
-      if (settings.rating_text)
+     
+      if (!($.isEmptyObject(settings.rating_text)))
       {
-       number_text = '<div class="simplerating-text" id="simplerating-text">';
-       if (settings.rating_text[parseInt(settings.initial_rate)])
+       number_text = '<div class="simplerating-text" id="simplerating-text_'+settings.hidden_input+'" style="min-height:30px;">';
+       if (settings.rating_text[parseInt(settings.initial_rating)])
        {
-           number_text += settings.rating_text[parseInt(settings.initial_rate)];
+           number_text += settings.rating_text[parseInt(settings.initial_rating)];
        }
        number_text += '</div>';
        jQuery(this).append(number_text);
@@ -109,9 +114,9 @@ https://github.com/Yosimitso/jquery-simplerating
             {
                $('#rate_'+settings.hidden_input+'\\['+i+'\\]').addClass('low-opacity'); 
             }
-            if (settings.rating_text[parseInt($(this).attr('data'))])
+            if (settings.rating_text[choice])
             {
-              $('#simplerating-text').html(settings.rating_text[parseInt($(this).attr('data'))]);  
+              $('#simplerating-text_'+settings.hidden_input).html(settings.rating_text[choice]);  
             }
        }
    });
@@ -124,7 +129,7 @@ https://github.com/Yosimitso/jquery-simplerating
             
             if (value === null || value === undefined)
             {
-                value = settings.initial_rate;
+                value = settings.initial_rating;
             }
          
             var rating_number = settings.rating_number;
@@ -147,11 +152,11 @@ https://github.com/Yosimitso/jquery-simplerating
                 if (settings.rating_text[$('#'+settings.hidden_input).val()]) // PRINT THE TEXT OF THE RANL
                 {
                     
-                    $('#simplerating-text').html(settings.rating_text[parseInt($('#'+settings.hidden_input).val())]);  
+                    $('#simplerating-text_'+settings.hidden_input).html(settings.rating_text[parseInt($('#'+settings.hidden_input).val())]);  
                 }
                 else
                 {
-                    $('#simplerating-text').html('');  
+                    $('#simplerating-text_'+settings.hidden_input).html('');  
                 }
             }  
             
@@ -180,7 +185,7 @@ https://github.com/Yosimitso/jquery-simplerating
     function trigger_error(myself,message)
     {
       console.error(message);
-      jQuery(myself).html('SimpleRating : error');  
+      jQuery(myself).html('SimpleRating : error, see console log');  
     }
     
     
