@@ -8,7 +8,7 @@ o
 Demo
 ----
 Test it here :
-http://www.charlymartins.fr/demo/jquery-simplerating
+http://demo.charlymartins.fr/jquery-simplerating
 
 Setup
 -----
